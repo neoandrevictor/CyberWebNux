@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CyberWebNux</title>
+</head>
+<body>
+    <div id="system"></div>
+    <div id="corpo"></div>
+    <script id="0:\System\bios.js">
+        //Essa é bios por onde tudo começa
+        system=document.getElementById("system");
+        corpo=document.getElementById("corpo");
+        
+        if (localStorage.getItem("0:\\System\\list.txt")==""){
+            localStorage.setItem("0:\\System\\list.txt","0:\\System\\list.txt")
+        }
+        system.hide=function(){
+            system.css("#system","display","none");
+        }
+
+        system.show=function(){
+            system.css("#system","display","inline");
+        }
+
+        system.generate=function(){
+            
+            let element=document.createElement("element");
+            for (argument of arguments){
+                element.innerHTML= element.innerHTML+argument;
+            }
+            system.appendChild(element);
+        }
+
+        corpo.generate=function(){
+            
+            let element=document.createElement("element");
+            for (argument of arguments){
+                element.innerHTML= element.innerHTML+argument;
+            }
+            corpo.appendChild(element);
+        }
+
+        system.css=function(selecionador,propriedade,valor){
+            let element=document.createElement("style");
+          
+            element.innerHTML= `${selecionador}{${propriedade}:${valor}}`;
+           
+            system.appendChild(element);
+        }
+
+        corpo.css=function(selecionador,propriedade,valor){
+            let element=document.createElement("style");
+          
+            element.innerHTML= `${selecionador}{${propriedade}:${valor}}`;
+           
+            corpo.appendChild(element);
+        }
+
+        system.generateln=function(){
+            let element=document.createElement("element");
+            for (argument of arguments){
+                element.innerHTML= element.innerHTML+argument+"<br>";
+            }
+            if (arguments.length==0){
+                element.innerHTML= element.innerHTML+"<br>";
+            }
+            system.appendChild(element);
+        }
+
+        corpo.generateln=function(){
+            let element=document.createElement("element");
+            for (argument of arguments){
+                element.innerHTML= element.innerHTML+argument+"<br>";
+            }
+            if (arguments.length==0){
+                element.innerHTML= element.innerHTML+"<br>";
+            }
+            corpo.appendChild(element);
+        }
+
+        system.date=new Date;
+        
+
+        system.call=function(code,id){
+            let element=document.createElement("script");
+           
+            element.innerHTML= element.innerHTML+code;
+            element.id=id;
+           
+            system.appendChild(element);
+        }
+
+        system.save=function(path,content){
+            localStorage.setItem(path,content);
+            let vetorLista=localStorage.getItem("0:\\System\\list.txt").split(";");
+           
+            for (arquivo of vetorLista){
+                if (arquivo==path){
+                    
+                    return;
+                }
+            }
+            localStorage.setItem("0:\\System\\list.txt",localStorage.getItem("0:\\System\\list.txt")+";"+path);
+        }
+
+        system.loadjs=function(path){
+            system.call(localStorage.getItem(path),path);
+            
+        }
+
+        system.ls=function(){
+            let resposta=localStorage.getItem("0:\\System\\list.txt");
+            system.generate(resposta+"<br>");
+        }
+
+        dir=system.ls;
+
+        system.ID=function(){
+            return document.getElementById(arguments[0]);
+        }
+
+        system.css("body","background","black");
+        system.css("body","color","white");
+        system.css("#system","height","98vh");
+      
+
+
+        system.generateln("CyberWebNux [Version 0.1]");
+        system.generateln(`Copyright (c) ${system.date.getFullYear()} HeroTech Corporation.  All rights reserved.`);
+        system.generateln();
+        system.generate(`0:\\System>`);
+
+        
+
+        system.css("input","background","black");        
+        system.css("input","color","white");
+        system.css("input","border","none");
+
+        system.css("input:focus","outline","none");
+
+        system.css("input::placeholder","color","white");
+
+        system.generate(" <input id='bios_input' placeholder=''></input>");
+        
+
+        system.ID("bios_input").focus();
+
+        system.setAttribute("onclick",`system.ID("bios_input").focus()`);
+        
+
+        system.doubleclick= function (){
+            if (system.getAttribute("onclick")==`system.ID("bios_input").focus()`){
+
+                system.setAttribute("onclick",``);
+            } else {
+                system.setAttribute("onclick",`system.ID("bios_input").focus()`);
+
+            }
+
+        }
+
+        system.setAttribute("ondblclick","system.doubleclick()");
+
+       
+
+        system.bios_input_enter = function bios_input_enter (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                comando=system.ID("bios_input").value;
+              
+                    system.call(comando);
+            
+               
+                system.generate(`0:\\System>`);
+              
+                system.ID("bios_input").outerHTML=comando+"<br>";
+                system.generate(" <input id='bios_input' placeholder=''></input>");
+                system.setAttribute("onclick",`system.ID("bios_input").focus()`);
+                system.ID("bios_input").addEventListener("keyup", system.bios_input_enter );
+
+                system.ID("bios_input").value="";
+                system.ID("bios_input").focus();
+
+            }
+        }
+        system.ID("bios_input").addEventListener("keyup", system.bios_input_enter );
+
+        corpo.destroy=function(){
+            corpo.innerHTML="";
+            system.show();
+        }
+       
+      
+       
+        
+        system.save("0:\\System\\bios.js",system.ID("0:\\System\\bios.js").innerHTML);
+        //system.load("0:\\System\\bios.js");
+
+
+    </script>
+
+    <scriptoff id="0:\\System\\notepad.js">
+        system.hide();
+        
+        notepad=corpo;
+
+        notepad.save=function(){
+            system.save(prompt("Digite o caminho completo do arquivo"),system.ID("notepad_areatexto").innerText);
+        }
+
+        notepad.load=function(){
+            system.ID("notepad_areatexto").value=localStorage.getItem(prompt("Digite o caminho completo do arquivo"));
+        }
+
+        notepad.run=function(){
+            system.call(system.ID("notepad_areatexto").value);
+        }
+
+        notepad.css("#corpo","height","98vh");
+        notepad.css("#corpo","color","black");
+        notepad.css("#corpo","background","white");
+        notepad.generateln("<textarea id='notepad_areatexto'></textarea>");
+        notepad.generateln("<button onclick='notepad.load()'>Abrir</button>");
+        notepad.generateln("<button onclick='notepad.save()'>Salvar</button>");
+        notepad.generateln("<button onclick='notepad.run()'>system.call</button>");
+
+       
+       
+
+        corpo.generateln("<button onclick='corpo.destroy()'>Sair</button>");
+
+
+    
+    </scriptoff>
+</body>
+</html>
