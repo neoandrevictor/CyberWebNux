@@ -8,6 +8,42 @@
 <body>
     <div id="system"></div>
     <div id="corpo"></div>
+
+    <scriptoff id="0:\System\notepad.js">
+            
+            system.hide();
+            
+            notepad=corpo;
+    
+            notepad.save=function(){
+                system.save(prompt("Digite o caminho completo do arquivo"),system.ID("notepad_areatexto").innerText);
+            }
+    
+            notepad.load=function(){
+                system.ID("notepad_areatexto").value=localStorage.getItem(prompt("Digite o caminho completo do arquivo"));
+            }
+    
+            notepad.run=function(){
+                system.call(system.ID("notepad_areatexto").value);
+            }
+    
+            notepad.css("#corpo","height","98vh");
+            notepad.css("#corpo","color","black");
+            notepad.css("#corpo","background","white");
+            notepad.generateln(`<textarea id='notepad_areatexto'></textarea>`);
+            notepad.generateln(`<button onclick='notepad.load()'>Abrir</button>`);
+            notepad.generateln(`<button onclick='notepad.save()'>Salvar</button>`);
+            notepad.generateln(`<button onclick='notepad.run()'>system.call</button>`);
+    
+           
+           
+    
+            corpo.generateln(`<button onclick='corpo.destroy()'>Sair</button>`);
+    
+    
+        
+    </scriptoff>
+
     <script id="0:\System\bios.js">
         //Essa é bios por onde tudo começa
         system=document.getElementById("system");
@@ -111,8 +147,10 @@
         }
 
         system.ls=function(){
-            let resposta=localStorage.getItem("0:\\System\\list.txt");
-            system.generate(resposta+"<br>");
+            var vetorLs=localStorage.getItem("0:\\System\\list.txt").split(";");
+            for (arquivo of vetorLs){
+                system.generate(`<a onclick='system.loadjs(${arquivo.replace("/","//")})>"${arquivo}"</a><br>`);
+            }
         }
 
         dir=system.ls;
@@ -124,6 +162,7 @@
         system.css("body","background","black");
         system.css("body","color","white");
         system.css("#system","height","98vh");
+        system.css("scriptoff","display","none");
       
 
 
@@ -137,6 +176,7 @@
         system.css("input","background","black");        
         system.css("input","color","white");
         system.css("input","border","none");
+        system.css("input","width","90%");
 
         system.css("input:focus","outline","none");
 
@@ -196,43 +236,12 @@
        
         
         system.save("0:\\System\\bios.js",system.ID("0:\\System\\bios.js").innerHTML);
-        //system.load("0:\\System\\bios.js");
+        system.save("0:\\System\\notepad.js",system.ID("0:\\System\\notepad.js").innerHTML);
+        //system.loadjs("0:\\System\\notepad.js");
 
 
     </script>
 
-    <scriptoff id="0:\\System\\notepad.js">
-        system.hide();
-        
-        notepad=corpo;
-
-        notepad.save=function(){
-            system.save(prompt("Digite o caminho completo do arquivo"),system.ID("notepad_areatexto").innerText);
-        }
-
-        notepad.load=function(){
-            system.ID("notepad_areatexto").value=localStorage.getItem(prompt("Digite o caminho completo do arquivo"));
-        }
-
-        notepad.run=function(){
-            system.call(system.ID("notepad_areatexto").value);
-        }
-
-        notepad.css("#corpo","height","98vh");
-        notepad.css("#corpo","color","black");
-        notepad.css("#corpo","background","white");
-        notepad.generateln("<textarea id='notepad_areatexto'></textarea>");
-        notepad.generateln("<button onclick='notepad.load()'>Abrir</button>");
-        notepad.generateln("<button onclick='notepad.save()'>Salvar</button>");
-        notepad.generateln("<button onclick='notepad.run()'>system.call</button>");
-
-       
-       
-
-        corpo.generateln("<button onclick='corpo.destroy()'>Sair</button>");
-
-
     
-    </scriptoff>
 </body>
 </html>
